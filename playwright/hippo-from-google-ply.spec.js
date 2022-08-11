@@ -1,22 +1,35 @@
 // @ts-check
 const { test, expect } = require('@playwright/test');
 
-test('Live demo - writing a test that searches for Hippo on google and then goes to the site', async ({ page }) => {
+test('homepage has Playwright in title and get started link linking to the intro page', async ({ page }) => {
   //Go to google
   await page.goto('https://www.google.com')
 
-  //click the accept cookies button
-  await page.locator('button[id="L2AGLb"]').click()
+  //Assert that the google homepage has loaded
+  await page.waitForURL('https://www.google.com')
+  
+  //Assert that the cookies modal is shown
+  await expect(await page.locator('div[class="dbsFrd"]')).toBeVisible()
 
-  //type into input
-  await page.locator('input[title="Search"]').type('Hippo Digital')
+  //Click the accept cookies button
+  await page.locator('div[class="QS5gu sy4vM"]', {hasText: 'Accept all'}).click()
 
-  //
+  //Get the search input
+  var searchInput = await page.locator('input[class="gLFyf gsfi"]')
+  
+  //Assert that the search box is empty
+  await expect(await searchInput).toBeEmpty()
+
+  //Search for Hippo digital
+  await searchInput.type('Hippo Digital')
+
+  //hit enter
   await page.keyboard.press('Enter')
 
-  //Aasert page results
-  await expect(await page.locator('a[href="https://hippodigital.co.uk/"]')).toBeVisible()
+  //Assert that the url is correct 
+  await page.waitForSelector('div[id="result-stats"]')
 
+  //Click the search result link
   await page.locator('a[href="https://hippodigital.co.uk/"]').click()
 
   //Wait for the hippo url to be shown
