@@ -1,0 +1,17 @@
+{
+  "name": "hippo-site-testing",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Adam Clarkson",
+  "license": "MIT",
+  "devDependencies": {
+    "@playwright/test": "^1.24.2",
+    "cypress": "^10.4.0"
+  },
+  "scripts": {
+    "test": "mocha --timeout 30000"
+  },
+  "dependencies": {
+    "selenium-webdriver": "^4.4.0"
+  }
+}
